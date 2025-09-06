@@ -4,6 +4,7 @@ from consultas import obtener_centros, obtener_categorias, obtener_productos_cc
 from imprimir_oc import generar_consolidado_pdf
 import locale
 
+
 def crear_formulario_consol_solicitud(page):
     # Configurar el locale a nivel de la página para los controles de Flet
     page.locale_configuration = ft.LocaleConfiguration(
@@ -12,10 +13,12 @@ def crear_formulario_consol_solicitud(page):
     )
     # Establecer el locale a español para el formato de fecha
     try:
-        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')  # Linux con locale instalado
     except locale.Error:
-        # Manejar el caso si 'es_ES.UTF-8' no está disponible (ej. en Windows)
-        locale.setlocale(locale.LC_TIME, 'es_ES')    
+        try:
+            locale.setlocale(locale.LC_TIME, 'es_ES')  # Windows
+        except locale.Error:
+            locale.setlocale(locale.LC_TIME, 'C')  
     
     fecha_actual = datetime.datetime.now().date()
     productos_cantidad_fields = []
